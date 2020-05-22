@@ -17,9 +17,9 @@ dependencies {
 }
 
 jar {
-    archiveFileName = 'swotlet.jar'
+    archiveFileName = 'propagator.jar'
     manifest {
-        attributes 'Main-Class': 'CelestialProject'
+        attributes 'Main-Class': 'Propagator'
     }
 
     from (configurations.compile.collect { entry -> zipTree(entry) }) {
