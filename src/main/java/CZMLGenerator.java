@@ -378,7 +378,28 @@ public class CZMLGenerator {
                                 yHalfAngle.writeNumber(FastMath.toRadians(15.));
                             }
                             try (ColorCesiumWriter intersectionColor = rectangularSensor.openIntersectionColorProperty()) {
-                                intersectionColor.writeRgba(julianDates, colors);
+                                try (CesiumIntervalListWriter<ColorCesiumWriter> intervals = intersectionColor.openMultipleIntervals()) {
+                                    for (int i = 0; i < julianDates.size() - 1; ++i) {
+                                        try (ColorCesiumWriter interval = intervals.openInterval()) {
+                                            interval.writeInterval(julianDates.get(i), julianDates.get(i+1));
+                                            interval.writeRgba(colors.get(i));
+                                        }
+                                    }
+                                }
+                            }
+                            try (MaterialCesiumWriter lateralMaterial = rectangularSensor.openLateralSurfaceMaterialProperty()) {
+                                try (GridMaterialCesiumWriter gridMaterial = lateralMaterial.openGridProperty()) {
+                                    try (ColorCesiumWriter color = gridMaterial.openColorProperty()) {
+                                        try (CesiumIntervalListWriter<ColorCesiumWriter> intervals = color.openMultipleIntervals()) {
+                                            for (int i = 0; i < julianDates.size() - 1; ++i) {
+                                                try (ColorCesiumWriter interval = intervals.openInterval()) {
+                                                    interval.writeInterval(julianDates.get(i), julianDates.get(i+1));
+                                                    interval.writeRgba(colors.get(i));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -388,7 +409,28 @@ public class CZMLGenerator {
                                 outerHalfAngle.writeNumber(((CircularFieldOfView) instrument.getFOV()).getHalfAperture());
                             }
                             try (ColorCesiumWriter intersectionColor = conicSensor.openIntersectionColorProperty()) {
-                                intersectionColor.writeRgba(julianDates, colors);
+                                try (CesiumIntervalListWriter<ColorCesiumWriter> intervals = intersectionColor.openMultipleIntervals()) {
+                                    for (int i = 0; i < julianDates.size() - 1; ++i) {
+                                        try (ColorCesiumWriter interval = intervals.openInterval()) {
+                                            interval.writeInterval(julianDates.get(i), julianDates.get(i+1));
+                                            interval.writeRgba(colors.get(i));
+                                        }
+                                    }
+                                }
+                            }
+                            try (MaterialCesiumWriter lateralMaterial = conicSensor.openLateralSurfaceMaterialProperty()) {
+                                try (GridMaterialCesiumWriter gridMaterial = lateralMaterial.openGridProperty()) {
+                                    try (ColorCesiumWriter color = gridMaterial.openColorProperty()) {
+                                        try (CesiumIntervalListWriter<ColorCesiumWriter> intervals = color.openMultipleIntervals()) {
+                                            for (int i = 0; i < julianDates.size() - 1; ++i) {
+                                                try (ColorCesiumWriter interval = intervals.openInterval()) {
+                                                    interval.writeInterval(julianDates.get(i), julianDates.get(i+1));
+                                                    interval.writeRgba(colors.get(i));
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
